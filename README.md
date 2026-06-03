@@ -30,10 +30,6 @@ If you've already cloned this repo:
 /plugin marketplace remove testery
 ```
 
-### Legacy install scripts
-
-The `install.sh` / `install.ps1` scripts predate the plugin system and copy files directly into `~/.claude/`. Prefer `/plugin install` above. The scripts remain for environments that can't use the plugin loader; see `install.sh --help` / `install.ps1 -h`.
-
 ## Quickstart
 
 After installing the plugin:
@@ -43,7 +39,7 @@ After installing the plugin:
 /testery-init         # scaffold playwright-bdd + register the project on Testery
 ```
 
-`/testery-onboard` opens `https://testery.app/signup` (or `/login` if you already have an account), walks you through generating an API key, then writes it to `~/.testery/credentials` (chmod 600) and your shell rc so it sticks across sessions. `/testery-init` scaffolds the project, runs a local smoke test, registers it on Testery, and (optionally) fires the first cloud run.
+`/testery-onboard` runs `testery login` (signing you up at `https://testery.app/signup` first if needed), which opens the API-keys page, captures your token, and saves it to `~/.testery/credentials` so it sticks across sessions. `/testery-init` scaffolds the project, runs a local smoke test, registers it on Testery, and (optionally) fires the first cloud run.
 
 ## What you get
 
@@ -59,6 +55,7 @@ After installing the plugin:
 | `/testery-monitor-test-run` | Follow a run to completion |
 | `/testery-cancel-test-run` | Cancel a running test run |
 | `/testery-list-active-test-runs` | Show in-flight runs |
+| `/testery-list-test-runs` | List recent runs (filter by branch/status/etc.) |
 | `/testery-report-test-run` | Output per-test results |
 | `/testery-upload-artifacts` | Upload a local file/dir as a build |
 | `/testery-add-file` | Attach a file to a test run |
@@ -67,7 +64,8 @@ After installing the plugin:
 | `/testery-deregister-environment` | Delete an environment |
 | `/testery-list-environments` | List environments |
 | `/testery-upload-environment-file` | Upload a file to an env |
-| `/testery-create-schedule` | Cron / on-deploy / follow schedules |
+| `/testery-create-schedule` | Interval (cron) / on-deploy schedules |
+| `/testery-list-schedules` | List configured schedules |
 | `/testery-delete-schedule` | Remove a schedule |
 | `/testery-create-deploy` | Notify Testery of a deploy |
 | `/testery-create-alert` | Set up an alert |
@@ -97,10 +95,10 @@ All `testery-*` skills wrap the [Testery CLI](https://github.com/testery/testery
    ```bash
    pip install testery
    ```
-3. **API token**: easiest via `/testery-onboard`. Manual:
+3. **API token**: easiest via `/testery-onboard` (or `testery login`). Manual — the CLI falls back to `$TESTERY_API_TOKEN`:
    ```bash
-   export TESTERY_TOKEN=<your-token>           # bash/zsh
-   $env:TESTERY_TOKEN = '<your-token>'         # PowerShell
+   export TESTERY_API_TOKEN=<your-token>        # bash/zsh
+   $env:TESTERY_API_TOKEN = '<your-token>'      # PowerShell
    ```
 4. **Optional**: configure the Testery MCP server in Claude Code for richer read-only inspection.
 5. **playwright-bdd skills** assume a project shaped like `example-webapp/web/` (`tests/features/`, `tests/steps/`, `playwright.config.ts` calling `defineBddConfig`, and a `test:e2e` script that runs `bddgen && playwright test`).
@@ -115,11 +113,9 @@ testery-claude-plugin/
 ├── commands/                # slash commands (auto-discovered)
 │   ├── testery-*.md
 │   └── bdd-*.md
-├── skills/                  # skills (auto-discovered)
-│   ├── testery-*/SKILL.md
-│   └── testery-playwright-bdd-*/SKILL.md
-├── install.sh / install.ps1     # legacy installers (pre-plugin system)
-└── uninstall.sh / uninstall.ps1
+└── skills/                  # skills (auto-discovered)
+    ├── testery-*/SKILL.md
+    └── testery-playwright-bdd-*/SKILL.md
 ```
 
 Each slash command delegates to its corresponding skill, so the documented behavior lives in one place. For write operations (create test run, upload artifacts, schedules, environments, deploys, monitoring), skills shell out to the CLI.
