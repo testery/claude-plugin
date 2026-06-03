@@ -44,19 +44,23 @@ The dashboard is implemented as a helper that ships with this skill collection: 
 
    The script auto-loads the token from `$TESTERY_TOKEN` or `~/.testery/credentials`. It exits 0 on success, 1 on failure: propagate that for CI.
 
-3. After the dashboard exits, render the final per-test summary using the format from `testery-report-test-run`:
+3. After the dashboard exits, render the final per-test summary using the format from `testery-report-test-run`. Include the run URL on the header line (see "Testery URLs" below):
 
    ```
    Testery Test Run <id>  ·  <project> @ <env>
+   https://testery.app/<accountName>/test-runs/<runId>
    ─────────────────────────────────────────────
    ✅ login.feature › User logs in successfully           1.2s
    ❌ checkout.feature › User completes checkout          3.4s
        → AssertionError: expected "Order placed" got "Error"
+       → https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console
    ⏭️ profile.feature › Avatar upload (skipped: @wip)
    ─────────────────────────────────────────────
    Total: N   ✅ p   ❌ f   ⏭️ s     Duration: T
    Status: ✅ PASSED   (or ❌ FAILED)
    ```
+
+   For each failed test, include a direct link to its console page (`/test-runs/<runId>/tests/<testId>/console`) beneath the error so the user can jump straight to logs/screenshots/video.
 
    Status mapping:
    - `PASS`/`PASSED` → ✅
@@ -81,13 +85,22 @@ The watch script auto-detects non-TTY and disables color, but for CI you usually
 testery monitor-test-runs --token "$TESTERY_TOKEN" --duration <minutes>
 ```
 
-Render each completed run as a one-liner:
+Render each completed run as a one-liner. Each line should also include the run URL (`https://testery.app/<accountName>/test-runs/<id>`) on the right or beneath:
 
 ```
-✅ run 12345  ·  proj-foo @ staging   12/12 passed   2m4s
-❌ run 12346  ·  proj-bar @ qa        9/10 passed    3m11s
-🟡 run 12347  ·  proj-baz @ dev       in progress
+✅ run 12345  ·  proj-foo @ staging   12/12 passed   2m4s   https://testery.app/<accountName>/test-runs/12345
+❌ run 12346  ·  proj-bar @ qa        9/10 passed    3m11s  https://testery.app/<accountName>/test-runs/12346
+🟡 run 12347  ·  proj-baz @ dev       in progress           https://testery.app/<accountName>/test-runs/12347
 ```
+
+## Testery URLs
+
+Testery app URLs follow `https://testery.app/<accountName>/<page>`, where `<accountName>` is the account slug shown in your Testery URLs (e.g. `testery-qa`):
+
+- Test run: `https://testery.app/<accountName>/test-runs/<runId>`
+- A single test's console (logs/screenshots/video; use for failures): `https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console`
+
+Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from the run JSON's `account.name`/`account.slug` if present. If neither is available, print the URL with the `<accountName>` placeholder and ask the user to set `TESTERY_ACCOUNT_SLUG`.
 
 ## Dependencies
 

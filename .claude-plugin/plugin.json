@@ -1,0 +1,21 @@
+{
+  "name": "testery",
+  "version": "0.1.0",
+  "description": "Drive the Testery test orchestration platform from Claude Code: create runs, monitor, schedule, manage environments, and scaffold playwright-bdd projects.",
+  "author": {
+    "name": "Testery",
+    "url": "https://testery.io"
+  },
+  "homepage": "https://testery.io",
+  "repository": "https://github.com/testery/testery-skills",
+  "license": "MIT",
+  "keywords": [
+    "testery",
+    "testing",
+    "playwright",
+    "playwright-bdd",
+    "cucumber",
+    "ci",
+    "test-orchestration"
+  ]
+}

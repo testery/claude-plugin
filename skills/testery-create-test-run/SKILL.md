@@ -16,7 +16,7 @@ Wraps `testery create-test-run`. Submits a test run for a given project + enviro
 ## Common optional flags
 
 - `--include-tags a,b,c` / `--exclude-tags x,y`: filter scenarios by tag.
-- `--test-filter-regex <pattern>`: regex test filter (repeatable).
+- `--test-filter-regex <pattern>`: regex test filter.
 - `--parallelize-by-file` or `--parallelize-by-test`.
 - `--runner-count <N>`: parallel runners.
 - `--copies <N>`: submit multiple copies.
@@ -41,5 +41,18 @@ testery create-test-run \
 
 1. If you don't know the project/environment keys, ask the user, or use the Testery MCP `list_projects` / list environments via `testery list-environments`.
 2. Build the command above with the user's inputs.
-3. Run it and report `test_run_id` from the output.
+3. Run it and report `test_run_id` from the output, plus the run URL:
+   ```
+   https://testery.app/<accountName>/test-runs/<test_run_id>
+   ```
+   See "Testery URLs" below for resolving `<accountName>`.
 4. If the user wants to follow it, use the `testery-monitor-test-run` skill.
+
+## Testery URLs
+
+Testery app URLs follow `https://testery.app/<accountName>/<page>`, where `<accountName>` is the account slug shown in your Testery URLs (e.g. `testery-qa`). Useful pages:
+
+- Test run: `https://testery.app/<accountName>/test-runs/<runId>`
+- A single test's console (e.g. to link a failing test): `https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console`
+
+Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from an `account.name`/`account.slug` field if present in the JSON response. If neither is available, print the URL with the `<accountName>` placeholder and ask the user to set `TESTERY_ACCOUNT_SLUG`. (There is no `testery whoami` command.)

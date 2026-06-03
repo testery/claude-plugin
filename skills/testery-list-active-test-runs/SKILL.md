@@ -13,4 +13,12 @@ testery list-active-test-runs \
   [--output pretty|json]
 ```
 
+When listing runs to the user, include the run URL for each one. Testery app URLs follow `https://testery.app/<accountName>/<page>` (where `<accountName>` is the account slug in your Testery URLs, e.g. `testery-qa`):
+
+```
+https://testery.app/<accountName>/test-runs/<runId>
+```
+
+Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or the run JSON's `account.name`/`account.slug` if present. Prefer JSON output (`--output json`) when constructing URLs so you can read each run's account/id reliably.
+
 For richer read-only inspection (per-project listing, completed runs, results) the Testery MCP server's `list_test_runs` and `get_test_results` tools are a good alternative when configured.

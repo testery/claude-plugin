@@ -1,6 +1,6 @@
 ---
-name: cucumber-run-on-testery-remote
-description: Run the REMOTE (Git-hosted) version of a CucumberJS + Playwright project on Testery, pinned to a branch or commit. Use when the user wants Testery to pull from Git and run.
+name: testery-playwright-bdd-run-on-testery-remote
+description: Run the REMOTE (Git-hosted) version of a playwright-bdd project on Testery, pinned to a branch or commit. Use when the user wants Testery to pull from Git and run.
 ---
 
 # Run remote/Git version on Testery
@@ -22,4 +22,4 @@ testery create-test-run \
 3. Run `create-test-run` with `--git-branch` or `--git-ref`.
 4. Hand off to `testery-monitor-test-run` to follow.
 
-For local working-copy code instead, use `cucumber-run-on-testery-local-build`.
+For local working-copy code instead, use `testery-playwright-bdd-run-on-testery-local-build`.

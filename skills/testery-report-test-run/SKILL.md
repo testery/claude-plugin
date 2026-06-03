@@ -5,19 +5,31 @@ description: Output per-test results for a completed Testery run as a pretty pas
 
 # Report a Testery test run
 
-Wraps `testery report-test-run`. Fetches per-test results in JSON, then renders a human-friendly summary with status emojis.
+Wraps `testery report-test-run`, then renders a human-friendly summary with status emojis.
+
+## What the CLI actually returns
+
+`report-test-run` reports at the **run level** (totals + status), not a per-test list:
+
+- **Default** (no `--output`): prints a single line, e.g. `Completed: 33 of 34 pass with 1 fail`.
+- `--output json`: prints the run object (Python-dict style — single quotes, `True`/`False`), which includes `status`, `totalCount`, `passCount`, `failCount`, `ignoredCount`, `notRunCount`, `timeoutCount`, `startTime`, `endTime`, etc.
+- `--output sonarcube`: SonarQube-format output (the only named format the help documents).
+- `--outfile <path>`: write the output to a file instead of stdout.
+- `--fail-on-failure`: exit non-zero when there are test failures.
+
+> For a per-test breakdown (individual scenario pass/fail with errors), the CLI does not provide it here — use the Testery MCP `get_test_results` tool, or read the run from `testery list-test-runs --output json`.
 
 ## Status legend
 
 - ✅ passed
 - ❌ failed
-- ⏭️ skipped / pending
+- ⏭️ skipped / pending / ignored
 - 🟡 running / in-progress
 - ⚠️ errored / unknown
 
 ## Steps
 
-1. Fetch results as JSON (so we can format ourselves):
+1. Fetch the run-level result as JSON:
    ```bash
    testery report-test-run \
      --token "$TESTERY_TOKEN" \
@@ -25,41 +37,45 @@ Wraps `testery report-test-run`. Fetches per-test results in JSON, then renders 
      --output json \
      --outfile /tmp/testery-run-<id>.json
    ```
+   (Note: the file is Python-dict style, not strict JSON — normalize `'`→`"`, `True`→`true`, `False`→`false` before parsing, or just read the fields directly.)
 
-2. Read `/tmp/testery-run-<id>.json` and produce output in this shape:
+2. Render a totals summary. Include the run URL on the header line (see "Testery URLs" below):
 
    ```
    Testery Test Run <id>  ·  <project> @ <env>
+   https://testery.app/<accountName>/test-runs/<runId>
    ─────────────────────────────────────────────
-   ✅ login.feature › User logs in successfully           1.2s
-   ✅ login.feature › User sees error on bad password     0.8s
-   ❌ checkout.feature › User completes checkout          3.4s
-       → AssertionError: expected "Order placed" got "Error"
-   ⏭️ profile.feature › Avatar upload (skipped: @wip)
-   ─────────────────────────────────────────────
-   Total: 4   ✅ 2   ❌ 1   ⏭️ 1     Duration: 5.4s
+   Total: 34   ✅ 33   ❌ 1   ⏭️ 0     Duration: 7m43s
    Status: ❌ FAILED
    ```
 
-   Mapping rules (Testery result statuses → emoji):
-   - `PASS` / `PASSED` → ✅
-   - `FAIL` / `FAILED` → ❌
-   - `SKIP` / `SKIPPED` / `PENDING` / `IGNORED` → ⏭️
-   - `RUNNING` / `IN_PROGRESS` / `QUEUED` → 🟡
-   - anything else → ⚠️ (include the raw status)
+   Map `status` to a verdict emoji: `PASS`/`PASSED` → ✅, `FAIL`/`FAILED` → ❌, `RUNNING`/`IN_PROGRESS`/`QUEUED` → 🟡, anything else → ⚠️ (include the raw status).
 
-3. For failed tests, include the error message / stack snippet beneath the line (indented with `    →`). Truncate long stacks to ~5 lines.
+3. **For a per-test breakdown** (when the user wants individual scenarios), pull results from the Testery MCP `get_test_results` and render one line per test. Link each failing test to its console page:
 
-4. End with a one-line totals row and an overall verdict (`✅ PASSED` if zero failures, otherwise `❌ FAILED`).
+   ```
+   ✅ login.feature › User logs in successfully           1.2s
+   ❌ checkout.feature › User completes checkout          3.4s
+       → AssertionError: expected "Order placed" got "Error"
+       → https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console
+   ⏭️ profile.feature › Avatar upload (skipped: @wip)
+   ```
 
-5. If `--outfile` is undesirable, write the JSON to a temp path and clean it up after rendering.
+   For failed tests, include the error/stack snippet beneath the line (indented `    →`; truncate long stacks to ~5 lines) and a link to its console page.
+
+## Testery URLs
+
+Testery app URLs follow `https://testery.app/<accountName>/<page>`, where `<accountName>` is the account slug shown in your Testery URLs (e.g. `testery-qa`):
+
+- Test run: `https://testery.app/<accountName>/test-runs/<runId>`
+- A single test's console (logs/screenshots/video; use for failures): `https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console`
+
+Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from the run JSON's `account.name`/`account.slug` if present. If neither is available, print the URL with the `<accountName>` placeholder and ask the user to set `TESTERY_ACCOUNT_SLUG`.
 
 ## CI use
 
-If the user wants a non-interactive report (e.g., for CI logs), pass `--fail-on-failure` so the CLI itself exits non-zero on failures:
+For a non-interactive check, pass `--fail-on-failure` so the CLI itself exits non-zero on failures:
 
 ```bash
-testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --output json --fail-on-failure
+testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --fail-on-failure
 ```
-
-The emoji rendering is still applied on top; the exit code is propagated for CI.

@@ -11,3 +11,7 @@ node_modules/
 
 # Anything Claude writes during local testing
 .claude/
+
+# Test / MCP session artifacts
+.playwright-mcp/
+results.xml

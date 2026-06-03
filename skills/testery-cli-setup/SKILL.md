@@ -7,17 +7,20 @@ description: Verify the Testery CLI is installed and authenticated. Use before i
 
 Every other `testery-*` skill in this collection shells out to the `testery` CLI. This skill confirms the CLI is on PATH and the API token is valid.
 
-## Required environment
+## Authentication
 
-- `TESTERY_TOKEN`: your Testery API token (set as env var, or pass `--token <value>` to each command).
-- `TESTERY_DEV=1` (optional): target the dev API instead of production. When set, also pass `--testery-dev` to CLI commands.
+Every `testery` command accepts `--token` and `--profile`, and falls back to stored credentials when neither is passed. Auth resolution (as documented by `testery <command> --help`):
 
-If the user has never set up Testery on this machine, prefer the `testery-onboard` skill: it handles signup/login on testery.io, captures the API key, and persists it to `~/.testery/credentials` and the shell rc so it survives across sessions.
+1. Explicit `--token <value>` flag
+2. `--profile <name>` → that profile in `~/.testery/credentials`
+3. `~/.testery/credentials` (written by `testery login`; `default` profile)
+4. `$TESTERY_API_TOKEN` env var
 
-Token resolution order used by skills in this collection:
-1. `$TESTERY_TOKEN` env var
-2. `~/.testery/credentials` (single line: `TESTERY_TOKEN=<token>`)
-3. Explicit `--token` flag
+The simplest setup is `testery login`, which opens the API-keys page in a browser and saves the token to `~/.testery/credentials` (optionally under `--profile <name>`). After that, commands authenticate with no `--token` needed.
+
+If the user has never set up Testery on this machine, prefer the `testery-onboard` skill, which wraps `testery login`.
+
+> Note: many example commands in this collection show `--token "$TESTERY_TOKEN"`. That still works if you export `TESTERY_TOKEN` yourself, but it is optional — once `testery login` has run (or `$TESTERY_API_TOKEN` is set), you can omit `--token` entirely.
 
 ## Steps
 
@@ -27,12 +30,13 @@ Token resolution order used by skills in this collection:
    ```
    If missing, install: `pip install testery` (or `pip install -e <path-to-testery-cli>`).
 
-2. Verify the token:
+2. Verify auth (uses stored credentials / `$TESTERY_API_TOKEN` if no `--token` given):
    ```bash
-   testery verify-token --token "$TESTERY_TOKEN"
+   testery verify-token
    ```
+   It prints `Valid token` on success.
 
-3. If verification fails, ask the user to set `TESTERY_TOKEN` from their Testery account profile.
+3. If verification fails, run `testery login` (or the `testery-onboard` skill) to authenticate.
 
 ## Notes
 

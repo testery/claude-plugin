@@ -5,12 +5,17 @@ description: Attach a file (artifact, log, or input) to an existing Testery test
 
 # Add a file to a test run
 
-Wraps `testery add-file`.
+Wraps `testery add-file`. The file path is a **positional argument** (`FILE_PATH`), not a flag.
 
 ```bash
-testery add-file \
+testery add-file ./path/to/file \
   --token "$TESTERY_TOKEN" \
   --test-run-id <id> \
-  --file-path ./path/to/file \
-  --kind <input|artifact|log>
+  [--kind <KIND>]
 ```
+
+Flags:
+- `FILE_PATH` (positional, required): the local file to attach.
+- `--test-run-id <id>`: the test run to attach the file to.
+- `--kind <KIND>`: the kind of file being uploaded (e.g. pass `DotCover` for a DotCover JSON coverage file).
+- Auth: `--token` / `--profile`, falling back to `~/.testery/credentials` or `$TESTERY_API_TOKEN`.

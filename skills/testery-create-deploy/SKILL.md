@@ -1,6 +1,6 @@
 ---
 name: testery-create-deploy
-description: Notify Testery that a deploy occurred for a project + environment. Triggers any ON_DEPLOY schedules attached to that environment. Use from CI after a deploy lands.
+description: Notify Testery that a deploy occurred for a project + environment. Triggers any deploy-type schedules attached to that environment. Use from CI after a deploy lands.
 ---
 
 # Create a Testery deploy event

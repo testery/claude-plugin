@@ -1,9 +1,9 @@
 ---
-description: Create a Testery schedule (cron, on-deploy, or follow-test-run).
+description: Create a Testery schedule (interval/cron or on-deploy).
 ---
 
 Use the `testery-create-schedule` skill (`testery create-schedule`).
 
 User input: $ARGUMENTS
 
-Ask the user for the schedule type if unclear (CRON / ON_DEPLOY / FOLLOW_TEST_RUN), then collect the corresponding inputs.
+Ask the user for the schedule type if unclear (`interval` for cron, or `deploy` for deploy-triggered), then collect the corresponding inputs.

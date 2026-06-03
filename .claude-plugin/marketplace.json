@@ -1,0 +1,14 @@
+{
+  "name": "testery",
+  "owner": {
+    "name": "Testery",
+    "url": "https://testery.io"
+  },
+  "plugins": [
+    {
+      "name": "testery",
+      "source": "./",
+      "description": "Slash commands and skills for the Testery platform plus playwright-bdd authoring helpers."
+    }
+  ]
+}

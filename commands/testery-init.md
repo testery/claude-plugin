@@ -1,5 +1,5 @@
 ---
-description: Scaffold Cucumber+Playwright tests in this project, register it on Testery, and run the first smoke.
+description: Scaffold playwright-bdd tests in this project, register it on Testery, and run the first smoke.
 ---
 
 Use the `testery-init` skill.
