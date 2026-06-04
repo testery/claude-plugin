@@ -25,14 +25,16 @@ Your AI agent writes the code and the tests. Testery runs them fast and flake-fr
   failures + 1 quarantined flake -> fixes them -> reruns only the failed tests
   -> proves the build green. Ends on "Verified on Testery, not assumed."
 
-  docs/demo.png is a static frame rendered from docs/claude-plugin-demo.cast
-  (asciinema v2). For an animated version, generate a GIF from the same cast:
-    agg docs/claude-plugin-demo.cast docs/demo.gif   (then swap the src below)
+  docs/demo.gif is rendered from docs/claude-plugin-demo.cast (asciinema v2) with agg:
+    agg --theme c9d4e3,0a0c10,0a0c10,ff5f6d,2ee06a,f4c152,5cc8ff,b88aff,4fd6c0,c9d4e3,5a6678,ff7b85,44f08a,ffd479,7fd6ff,c9a4ff,6fe6d2,ffffff \
+        --text-font-family "Consolas,JetBrains Mono,DejaVu Sans Mono" \
+        --emoji-font-family "Consolas,Segoe UI Symbol,DejaVu Sans Mono" \
+        --speed 1.1 docs/claude-plugin-demo.cast docs/demo.gif
   The live animated demo is at https://testery.io/claude-plugin
 -->
 <div align="center">
   <a href="https://testery.io/claude-plugin">
-    <img src="docs/demo.png" alt="Claude Code using the Testery plugin: an AI refactors checkout, runs the suite on Testery, catches 2 real failures and a quarantined flake, fixes them, reruns only the failed tests, and proves the build green. Verified on Testery, not assumed." width="760">
+    <img src="docs/demo.gif" alt="Claude Code using the Testery plugin: an AI refactors checkout, runs the suite on Testery, catches 2 real failures and a quarantined flake, fixes them, reruns only the failed tests, and proves the build green. Verified on Testery, not assumed." width="760">
   </a>
   <br>
   <em>Red turns green, <strong>verified on Testery, not assumed.</strong> &nbsp;(<a href="https://testery.io/claude-plugin">watch the live demo</a>)</em>
