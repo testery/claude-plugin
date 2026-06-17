@@ -5,6 +5,8 @@ description: Run the LOCAL working-copy version of a playwright-bdd project on T
 
 # Run local build on Testery
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 This wraps the CLI flow:
 1. Pre-zip the project dir with excludes (see below), then `testery upload-build-artifacts` ships the zip.
 2. `testery create-test-run --build-id ...`: runs against that uploaded bundle.
