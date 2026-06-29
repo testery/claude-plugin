@@ -5,10 +5,12 @@ description: List currently-active Testery test runs and their status. Use when 
 
 # List active test runs
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 Wraps `testery list-active-test-runs`.
 
 ```bash
-testery list-active-test-runs \
+TESTERY_SKILL="testery-list-active-test-runs" testery list-active-test-runs \
   --token "$TESTERY_TOKEN" \
   [--output pretty|json]
 ```

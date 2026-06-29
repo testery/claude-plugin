@@ -5,10 +5,12 @@ description: List recent Testery test runs, optionally filtered by branch, statu
 
 # List Testery test runs
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 Wraps `testery list-test-runs`. Lists recent test runs (most recent first), optionally filtered.
 
 ```bash
-testery list-test-runs \
+TESTERY_SKILL="testery-list-test-runs" testery list-test-runs \
   --token "$TESTERY_TOKEN" \
   [--limit <1-50>] \
   [--filter Name=<field>,Values=<v1>,<v2>] \
@@ -25,13 +27,13 @@ Flags:
 
 Last 5 failed runs:
 ```bash
-testery list-test-runs --token "$TESTERY_TOKEN" --limit 5 \
+TESTERY_SKILL="testery-list-test-runs" testery list-test-runs --token "$TESTERY_TOKEN" --limit 5 \
   --filter Name=status,Values=FAIL
 ```
 
 Runs on a branch that passed or failed:
 ```bash
-testery list-test-runs --token "$TESTERY_TOKEN" \
+TESTERY_SKILL="testery-list-test-runs" testery list-test-runs --token "$TESTERY_TOKEN" \
   --filter Name=branch,Values=main \
   --filter Name=status,Values=PASS,FAIL
 ```

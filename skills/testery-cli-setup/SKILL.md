@@ -24,15 +24,53 @@ If the user has never set up Testery on this machine, prefer the `testery-onboar
 
 ## Steps
 
-1. Check the CLI is installed:
-   ```bash
-   testery --help
-   ```
-   If missing, install: `pip install testery` (or `pip install -e <path-to-testery-cli>`).
+1. **Ensure the CLI is installed (canonical detect-and-offer flow).** Run this **once per
+   session**, before the first `testery` call. It is a no-op when the CLI is already present,
+   so it does **not** slow down commands. Do **not** `pip install` or run `testery --help`
+   before *every* command.
+
+   **a. Detect.** Run the bundled detection script (a cheap builtin check, no network):
+
+   - POSIX shell (macOS, Linux, Git Bash on Windows):
+     ```bash
+     bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"
+     ```
+   - Windows PowerShell:
+     ```powershell
+     & "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"
+     ```
+
+   It prints one of `READY <version>` (exit 0), `NOT_INSTALLED` (exit 1), or
+   `NOT_ONBOARDED` (exit 1).
+
+   **b. If `READY`** — the CLI is installed and authenticated; continue, nothing more to do.
+
+   **c. If `NOT_INSTALLED`** (and you have not already offered this session):
+   1. Display this message to the user, exactly:
+
+      > Your AI-enabled testing journey with Testery is about to begin! 🤖
+
+   2. Use the **AskUserQuestion** tool to ask a yes/no question about installing the Testery
+      CLI — frame the upside, e.g. header `Install CLI`, question "Install the Testery CLI? It
+      unlocks running tests on Testery's cloud, live monitoring, schedules, environments, and
+      more.", options **Yes, install it** / **Not now**.
+   3. **If yes**, install it, then re-run the detect script (it will now report
+      `NOT_ONBOARDED` — continue with **d**):
+      - POSIX: `python3 -m pip install -q testery || python -m pip install -q testery`  (or `pipx install testery`)
+      - PowerShell: `python -m pip install -q testery`  (or `py -m pip install -q testery`)
+   4. **If no**, tell the user that Testery commands will not work until the CLI is installed,
+      and do **not** re-ask for the rest of this session.
+
+   **d. If `NOT_ONBOARDED`** (CLI installed but not authenticated): run the **testery-onboard**
+   skill to sign the user in (signup or API-token paste; it saves credentials to
+   `~/.testery/credentials`). After it completes, re-run the detect script — it should now
+   print `READY`.
+
+   Python may be `python3`, `python`, or the `py -3` launcher depending on the OS.
 
 2. Verify auth (uses stored credentials / `$TESTERY_API_TOKEN` if no `--token` given):
    ```bash
-   testery verify-token
+   TESTERY_SKILL="testery-cli-setup" testery verify-token
    ```
    It prints `Valid token` on success.
 

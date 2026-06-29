@@ -1,6 +1,6 @@
 {
   "name": "testery",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "Drive the Testery test orchestration platform from Claude Code: create runs, monitor, schedule, manage environments, and scaffold playwright-bdd projects.",
   "author": {
     "name": "Testery",

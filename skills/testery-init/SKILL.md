@@ -5,6 +5,8 @@ description: Bootstrap a project with playwright-bdd tests AND wire it up to Tes
 
 # Initialize Testery + playwright-bdd in a project
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 End state: working playwright-bdd suite locally, a Testery project + environment registered, and the first green run on Testery (optional).
 
 The archetype is `example-webapp/web/`.
@@ -149,7 +151,7 @@ Then:
 
 2. **Environment**: use the CLI:
    ```bash
-   testery create-environment \
+   TESTERY_SKILL="testery-init" testery create-environment \
      --token "$TESTERY_TOKEN" \
      --key "<env-key>" \
      --name "<env-name>" \
@@ -163,7 +165,7 @@ Two options: ask the user which:
 - **Local working copy** (no git push needed): hand off to the `testery-playwright-bdd-run-on-testery-local-build` skill (zips with proper excludes, uploads, runs).
 - **From Git** (requires the repo to be pushed and connected to Testery):
   ```bash
-  testery create-test-run --token "$TESTERY_TOKEN" --project-key "<project-key>" --environment-key "<env-key>" --git-branch "$(git rev-parse --abbrev-ref HEAD)" --wait-for-results --output json
+  TESTERY_SKILL="testery-init" testery create-test-run --token "$TESTERY_TOKEN" --project-key "<project-key>" --environment-key "<env-key>" --git-branch "$(git rev-parse --abbrev-ref HEAD)" --wait-for-results --output json
   ```
 
 Pipe results through the emoji renderer from `testery-report-test-run`.

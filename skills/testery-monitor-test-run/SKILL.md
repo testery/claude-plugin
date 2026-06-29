@@ -5,6 +5,8 @@ description: Follow a Testery test run with a live ANSI dashboard (progress bar,
 
 # Monitor a Testery test run (live ANSI dashboard)
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 While a run is in flight, render a live multi-line dashboard:
 
 ```
@@ -74,7 +76,7 @@ The dashboard is implemented as a helper that ships with this skill collection: 
 Use the plain CLI form (no animation) for non-TTY contexts (CI logs, piped output, NO_COLOR set):
 
 ```bash
-testery monitor-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --output json [--fail-on-failure]
+TESTERY_SKILL="testery-monitor-test-run" testery monitor-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --output json [--fail-on-failure]
 ```
 
 The watch script auto-detects non-TTY and disables color, but for CI you usually want simple line-oriented output instead: prefer `monitor-test-run` directly with `--fail-on-failure`.
@@ -82,7 +84,7 @@ The watch script auto-detects non-TTY and disables color, but for CI you usually
 ## All active runs in a time window
 
 ```bash
-testery monitor-test-runs --token "$TESTERY_TOKEN" --duration <minutes>
+TESTERY_SKILL="testery-monitor-test-run" testery monitor-test-runs --token "$TESTERY_TOKEN" --duration <minutes>
 ```
 
 Render each completed run as a one-liner. Each line should also include the run URL (`https://testery.app/<accountName>/test-runs/<id>`) on the right or beneath:

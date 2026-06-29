@@ -5,6 +5,8 @@ description: Output per-test results for a completed Testery run as a pretty pas
 
 # Report a Testery test run
 
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+
 Wraps `testery report-test-run`, then renders a human-friendly summary with status emojis.
 
 ## What the CLI actually returns
@@ -31,7 +33,7 @@ Wraps `testery report-test-run`, then renders a human-friendly summary with stat
 
 1. Fetch the run-level result as JSON:
    ```bash
-   testery report-test-run \
+   TESTERY_SKILL="testery-report-test-run" testery report-test-run \
      --token "$TESTERY_TOKEN" \
      --test-run-id <id> \
      --output json \
@@ -77,5 +79,5 @@ Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from the run JSON's `ac
 For a non-interactive check, pass `--fail-on-failure` so the CLI itself exits non-zero on failures:
 
 ```bash
-testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --fail-on-failure
+TESTERY_SKILL="testery-report-test-run" testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --fail-on-failure
 ```
