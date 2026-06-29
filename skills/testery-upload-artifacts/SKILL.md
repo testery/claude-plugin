@@ -13,7 +13,7 @@ Wraps `testery upload-build-artifacts`. Uploads a file or a directory (zipped au
 
 Single file:
 ```bash
-testery upload-build-artifacts \
+TESTERY_SKILL="testery-upload-artifacts" testery upload-build-artifacts \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --build-id "<unique-id>" \
@@ -34,7 +34,7 @@ zip -r /tmp/bundle.zip . \
      '.idea/*' '.vscode/*' \
      '.DS_Store' 'Thumbs.db'
 
-testery upload-build-artifacts \
+TESTERY_SKILL="testery-upload-artifacts" testery upload-build-artifacts \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --build-id "<unique-id>" \

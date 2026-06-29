@@ -8,7 +8,7 @@ description: Run the REMOTE (Git-hosted) version of a playwright-bdd project on 
 > **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
 
 ```bash
-testery create-test-run \
+TESTERY_SKILL="testery-playwright-bdd-run-on-testery-remote" testery create-test-run \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --environment-key "<env>" \

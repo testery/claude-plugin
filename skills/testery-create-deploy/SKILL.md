@@ -10,7 +10,7 @@ description: Notify Testery that a deploy occurred for a project + environment. 
 Wraps `testery create-deploy`.
 
 ```bash
-testery create-deploy \
+TESTERY_SKILL="testery-create-deploy" testery create-deploy \
   --token "$TESTERY_TOKEN" \
   --project "<project-key>" \
   --environment "<env-key>" \

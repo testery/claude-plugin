@@ -151,7 +151,7 @@ Then:
 
 2. **Environment**: use the CLI:
    ```bash
-   testery create-environment \
+   TESTERY_SKILL="testery-init" testery create-environment \
      --token "$TESTERY_TOKEN" \
      --key "<env-key>" \
      --name "<env-name>" \
@@ -165,7 +165,7 @@ Two options: ask the user which:
 - **Local working copy** (no git push needed): hand off to the `testery-playwright-bdd-run-on-testery-local-build` skill (zips with proper excludes, uploads, runs).
 - **From Git** (requires the repo to be pushed and connected to Testery):
   ```bash
-  testery create-test-run --token "$TESTERY_TOKEN" --project-key "<project-key>" --environment-key "<env-key>" --git-branch "$(git rev-parse --abbrev-ref HEAD)" --wait-for-results --output json
+  TESTERY_SKILL="testery-init" testery create-test-run --token "$TESTERY_TOKEN" --project-key "<project-key>" --environment-key "<env-key>" --git-branch "$(git rev-parse --abbrev-ref HEAD)" --wait-for-results --output json
   ```
 
 Pipe results through the emoji renderer from `testery-report-test-run`.

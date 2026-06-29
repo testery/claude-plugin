@@ -28,13 +28,13 @@ zip -r /tmp/bundle.zip . \
      '.idea/*' '.vscode/*' \
      '.DS_Store' 'Thumbs.db'
 
-testery upload-build-artifacts \
+TESTERY_SKILL="testery-playwright-bdd-run-on-testery-local-build" testery upload-build-artifacts \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --build-id "$BUILD_ID" \
   --path /tmp/bundle.zip
 
-testery create-test-run \
+TESTERY_SKILL="testery-playwright-bdd-run-on-testery-local-build" testery create-test-run \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --environment-key "<env>" \

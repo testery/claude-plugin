@@ -32,7 +32,7 @@ if `NOT_INSTALLED`, show the welcome and offer to install). Continue once the CL
 ## 2. Already authenticated?
 
 ```bash
-testery verify-token
+TESTERY_SKILL="testery-onboard" testery verify-token
 ```
 `Valid token` → record `completed_at` (step 5) and stop. Otherwise continue.
 
@@ -58,7 +58,7 @@ Immediately persist these answers (step 5, with `completed_at` still null).
   - macOS: `open "https://testery.app/signup"` · Linux: `xdg-open "https://testery.app/signup"`
 - **Log in (existing account, or right after signup):**
   ```bash
-  testery login            # opens the browser; add --profile <name> for a named profile
+  TESTERY_SKILL="testery-onboard" testery login            # opens the browser; add --profile <name> for a named profile
   ```
   `testery login` opens the browser; the user approves/copies, and the CLI saves the token to
   `~/.testery/credentials`. If they chose **Headless / browser didn't open**, `testery login`
@@ -105,7 +105,7 @@ New-Item -ItemType Directory -Force "$HOME/.testery" | Out-Null
 ## 6. Verify
 
 ```bash
-testery verify-token
+TESTERY_SKILL="testery-onboard" testery verify-token
 ```
 Confirm `Valid token` to the user.
 

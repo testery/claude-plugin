@@ -10,7 +10,7 @@ description: Execute a saved Testery test plan against an environment. Use when 
 Wraps `testery run-test-plan`.
 
 ```bash
-testery run-test-plan \
+TESTERY_SKILL="testery-run-test-plan" testery run-test-plan \
   --token "$TESTERY_TOKEN" \
   --test-plan-key "<plan-key>" \
   --environment-key "<env-key>" \

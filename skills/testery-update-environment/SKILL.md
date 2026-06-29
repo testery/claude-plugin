@@ -10,7 +10,7 @@ description: Update an existing Testery environment (rename, change pipeline sta
 Wraps `testery update-environment`.
 
 ```bash
-testery update-environment \
+TESTERY_SKILL="testery-update-environment" testery update-environment \
   --token "$TESTERY_TOKEN" \
   --key "<env-key>" \
   [--name "<New Name>"] \

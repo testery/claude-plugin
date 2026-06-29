@@ -10,7 +10,7 @@ description: List currently-active Testery test runs and their status. Use when 
 Wraps `testery list-active-test-runs`.
 
 ```bash
-testery list-active-test-runs \
+TESTERY_SKILL="testery-list-active-test-runs" testery list-active-test-runs \
   --token "$TESTERY_TOKEN" \
   [--output pretty|json]
 ```

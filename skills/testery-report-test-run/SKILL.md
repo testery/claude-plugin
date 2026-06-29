@@ -33,7 +33,7 @@ Wraps `testery report-test-run`, then renders a human-friendly summary with stat
 
 1. Fetch the run-level result as JSON:
    ```bash
-   testery report-test-run \
+   TESTERY_SKILL="testery-report-test-run" testery report-test-run \
      --token "$TESTERY_TOKEN" \
      --test-run-id <id> \
      --output json \
@@ -79,5 +79,5 @@ Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from the run JSON's `ac
 For a non-interactive check, pass `--fail-on-failure` so the CLI itself exits non-zero on failures:
 
 ```bash
-testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --fail-on-failure
+TESTERY_SKILL="testery-report-test-run" testery report-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --fail-on-failure
 ```

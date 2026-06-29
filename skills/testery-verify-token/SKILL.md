@@ -10,5 +10,5 @@ description: Verify a Testery API token is valid and report the associated user.
 Wraps `testery verify-token`.
 
 ```bash
-testery verify-token --token "$TESTERY_TOKEN"
+TESTERY_SKILL="testery-verify-token" testery verify-token --token "$TESTERY_TOKEN"
 ```

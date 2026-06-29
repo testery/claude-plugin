@@ -76,7 +76,7 @@ The dashboard is implemented as a helper that ships with this skill collection: 
 Use the plain CLI form (no animation) for non-TTY contexts (CI logs, piped output, NO_COLOR set):
 
 ```bash
-testery monitor-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --output json [--fail-on-failure]
+TESTERY_SKILL="testery-monitor-test-run" testery monitor-test-run --token "$TESTERY_TOKEN" --test-run-id <id> --output json [--fail-on-failure]
 ```
 
 The watch script auto-detects non-TTY and disables color, but for CI you usually want simple line-oriented output instead: prefer `monitor-test-run` directly with `--fail-on-failure`.
@@ -84,7 +84,7 @@ The watch script auto-detects non-TTY and disables color, but for CI you usually
 ## All active runs in a time window
 
 ```bash
-testery monitor-test-runs --token "$TESTERY_TOKEN" --duration <minutes>
+TESTERY_SKILL="testery-monitor-test-run" testery monitor-test-runs --token "$TESTERY_TOKEN" --duration <minutes>
 ```
 
 Render each completed run as a one-liner. Each line should also include the run URL (`https://testery.app/<accountName>/test-runs/<id>`) on the right or beneath:

@@ -10,7 +10,7 @@ description: Cancel a running Testery test run by ID. Use when the user asks to 
 Wraps `testery cancel-test-run`.
 
 ```bash
-testery cancel-test-run \
+TESTERY_SKILL="testery-cancel-test-run" testery cancel-test-run \
   --token "$TESTERY_TOKEN" \
   --test-run-id <id>
 ```

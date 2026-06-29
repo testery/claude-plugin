@@ -10,7 +10,7 @@ description: Register (create) a new Testery environment that tests can target. 
 Wraps `testery create-environment`.
 
 ```bash
-testery create-environment \
+TESTERY_SKILL="testery-register-environment" testery create-environment \
   --token "$TESTERY_TOKEN" \
   --key "<env-key>" \
   --name "<Display Name>" \

@@ -13,7 +13,7 @@ Wraps `testery create-schedule`. The `--schedule-type` is either `interval` (cro
 
 Interval (cron) — requires `--schedule-type interval` with `--cron`:
 ```bash
-testery create-schedule \
+TESTERY_SKILL="testery-create-schedule" testery create-schedule \
   --token "$TESTERY_TOKEN" \
   --schedule-name "<name>" \
   --project-key "<project>" \
@@ -25,7 +25,7 @@ testery create-schedule \
 
 On deploy — `--schedule-type deploy`, optionally fired by another project's deploy:
 ```bash
-testery create-schedule \
+TESTERY_SKILL="testery-create-schedule" testery create-schedule \
   --token "$TESTERY_TOKEN" \
   --schedule-name "<name>" \
   --project-key "<project>" \

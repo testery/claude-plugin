@@ -10,7 +10,7 @@ description: List the Testery schedules (interval/cron and deploy triggers) conf
 Wraps `testery list-schedules`. Lists the schedules (triggers) configured for the account.
 
 ```bash
-testery list-schedules \
+TESTERY_SKILL="testery-list-schedules" testery list-schedules \
   --token "$TESTERY_TOKEN" \
   [--show-archived] \
   [--output pretty|json]

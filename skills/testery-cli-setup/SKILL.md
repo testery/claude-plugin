@@ -70,7 +70,7 @@ If the user has never set up Testery on this machine, prefer the `testery-onboar
 
 2. Verify auth (uses stored credentials / `$TESTERY_API_TOKEN` if no `--token` given):
    ```bash
-   testery verify-token
+   TESTERY_SKILL="testery-cli-setup" testery verify-token
    ```
    It prints `Valid token` on success.
 

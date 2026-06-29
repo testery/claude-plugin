@@ -31,7 +31,7 @@ Wraps `testery create-test-run`. Submits a test run for a given project + enviro
 ## Template
 
 ```bash
-testery create-test-run \
+TESTERY_SKILL="testery-create-test-run" testery create-test-run \
   --token "$TESTERY_TOKEN" \
   --project-key "<project>" \
   --environment-key "<env>" \

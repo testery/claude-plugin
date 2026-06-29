@@ -10,7 +10,7 @@ description: List Testery environments, optionally filtered by pipeline stage. U
 Wraps `testery list-environments`.
 
 ```bash
-testery list-environments \
+TESTERY_SKILL="testery-list-environments" testery list-environments \
   --token "$TESTERY_TOKEN" \
   [--pipeline-stage "<stage>"] \
   [--show-archived]

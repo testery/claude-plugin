@@ -10,7 +10,7 @@ description: Delete (deregister) a Testery environment by key. Use when the user
 Wraps `testery delete-environment`.
 
 ```bash
-testery delete-environment \
+TESTERY_SKILL="testery-deregister-environment" testery delete-environment \
   --token "$TESTERY_TOKEN" \
   --key "<env-key>"
 ```

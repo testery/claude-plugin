@@ -10,7 +10,7 @@ description: Upload a file (e.g., a config, fixture, or credential file) and att
 Wraps `testery upload-environment-file`.
 
 ```bash
-testery upload-environment-file \
+TESTERY_SKILL="testery-upload-environment-file" testery upload-environment-file \
   --token "$TESTERY_TOKEN" \
   --environment-key "<env-key>" \
   --file-name "<remote-name>" \

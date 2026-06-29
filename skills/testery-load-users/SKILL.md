@@ -10,7 +10,7 @@ description: Bulk-load users into a Testery account from a JSON/CSV file. Use fo
 Wraps `testery load-users`.
 
 ```bash
-testery load-users \
+TESTERY_SKILL="testery-load-users" testery load-users \
   --token "$TESTERY_TOKEN" \
   --user-file ./users.json
 ```

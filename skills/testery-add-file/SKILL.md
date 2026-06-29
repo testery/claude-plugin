@@ -10,7 +10,7 @@ description: Attach a file (artifact, log, or input) to an existing Testery test
 Wraps `testery add-file`. The file path is a **positional argument** (`FILE_PATH`), not a flag.
 
 ```bash
-testery add-file ./path/to/file \
+TESTERY_SKILL="testery-add-file" testery add-file ./path/to/file \
   --token "$TESTERY_TOKEN" \
   --test-run-id <id> \
   [--kind <KIND>]

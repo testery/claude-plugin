@@ -10,7 +10,7 @@ description: Delete a Testery schedule by name. Use when the user wants to remov
 Wraps `testery delete-schedule`.
 
 ```bash
-testery delete-schedule \
+TESTERY_SKILL="testery-delete-schedule" testery delete-schedule \
   --token "$TESTERY_TOKEN" \
   --name "<schedule-name>"
 ```
