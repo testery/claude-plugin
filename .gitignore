@@ -9,6 +9,10 @@ Thumbs.db
 node_modules/
 *.log
 
+# Python (skill helper) bytecode
+__pycache__/
+*.pyc
+
 # Anything Claude writes during local testing
 .claude/
 
