@@ -1,0 +1,9 @@
+# Shell and Python scripts must stay LF: they run in Linux containers, macOS, and
+# WSL (plugin hooks, the detect/guard preflight, skill helpers). Without this, a
+# contributor with core.autocrlf=true checks them out as CRLF and bash fails with
+# "syntax error: unexpected end of file". Pin the line endings regardless of local git config.
+*.sh text eol=lf
+*.py text eol=lf
+
+# PowerShell scripts stay CRLF (Windows-native).
+*.ps1 text eol=crlf
