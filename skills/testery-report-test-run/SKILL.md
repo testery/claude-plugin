@@ -51,6 +51,7 @@ Before rendering the totals summary or per-test breakdown, check once per sessio
     ```
     If every test is the same status (0% or 100% split), render a solid circle in that status's color rather than a degenerate gradient.
   - **Status filter pills:** directly above the per-test list, a row of pills — `All <total>`, `Passed <n>`, `Failed <n>`, plus `Skipped <n>` only when that count is non-zero — that filter the list client-side. Wire them up in the trailing `<script>` (it runs after streaming completes): toggle each test row's `display`, hide any feature-file group left with no visible rows, update a live `Showing <x> of <total>` count in an `aria-live="polite"` element, and set `aria-pressed` on each pill. Do the filtering in JS — never round-trip through `sendPrompt` for it. Default to `All` so nothing is hidden while the widget streams, and show a "No tests match this filter." line if a pill ever yields an empty list. Style the active pill with `background:var(--bg-accent); color:var(--text-accent); border-color:var(--border-accent)` and leave the inactive ones transparent with `var(--border-strong)`.
+  - **Links back to Testery:** make the widget clickable. The run title and a `View results` action link to the run page; every test row links to its own result (`.../tests/<testId>`); a failed test additionally gets `Console & video` (`.../tests/<testId>/console`); and an action row carries `Rerun tests` (the run page — see below) and `All runs` (`/test-runs`). Plain `<a href="https://...">` is enough — the host intercepts the click and shows its own link-confirmation dialog. Only emit a per-test link when you hold a real `<testId>` from the results API; never synthesize or extrapolate one.
 - **If not found** (e.g. running in Claude Code CLI / VS Code, where this app isn't exposed), or the widget call fails: use the text-based formatting below. This is the default, always-available path — don't ask the user to choose, and don't block waiting on this check.
 
 ## Steps
@@ -91,12 +92,25 @@ Before rendering the totals summary or per-test breakdown, check once per sessio
 
 ## Testery URLs
 
-Testery app URLs follow `https://testery.app/<accountName>/<page>`, where `<accountName>` is the account slug shown in your Testery URLs (e.g. `testery-qa`):
+Testery app URLs follow `https://testery.app/<accountName>/<page>`.
 
-- Test run: `https://testery.app/<accountName>/test-runs/<runId>`
-- A single test's console (logs/screenshots/video; use for failures): `https://testery.app/<accountName>/test-runs/<runId>/tests/<testId>/console`
+Resolve `<accountName>`, once per session, in this order:
 
-Resolve `<accountName>` from `$TESTERY_ACCOUNT_SLUG`, or from the run JSON's `account.name`/`account.slug` if present. If neither is available, print the URL with the `<accountName>` placeholder and ask the user to set `TESTERY_ACCOUNT_SLUG`.
+1. `$TESTERY_ACCOUNT_SLUG`, if set.
+2. `GET https://api.testery.io/api/account` with the API token — the `name` field is the slug used in app URLs. (Dev: `https://api.dev.testery.io/api`.)
+3. Otherwise emit the `<accountName>` placeholder and ask the user to set `TESTERY_ACCOUNT_SLUG`.
+
+Route patterns, as defined by the web app's router:
+
+- Run results: `https://testery.app/<accountName>/test-runs/<runId>`
+- A tab on that page: `.../test-runs/<runId>/<tab>` — valid tabs are `analysis`, `chat`, `code`, `details`, `history`, `info`, `logs`, `messages`, `test-results`, `test-selection`, `timeline`.
+- A single test: `.../test-runs/<runId>/tests/<testId>`
+- That test's console (logs/screenshots/video; use for failures): `.../test-runs/<runId>/tests/<testId>/console`
+- All runs: `https://testery.app/<accountName>/test-runs`
+
+**Getting `<testId>`:** `report-test-run` never emits test IDs — `--output` writes SonarQube XML whatever value you pass it. Fetch them from `GET https://api.testery.io/api/test-runs/<runId>/results`, which returns one object per test carrying `id` (the `<testId>`), `status`, `duration`, and `projectTest.name`.
+
+**Rerun is an action, not a URL.** The app reruns via `POST /api/test-runs/<runId>/rerun`; no GET route triggers one, and the widget sandbox is unauthenticated. A `Rerun tests` control must therefore link to the run page, where the app's own rerun buttons live. Do not link to `/test-runs/<runId>/rerun` — there is no such tab, and it silently lands on the results page.
 
 ## CI use
 
