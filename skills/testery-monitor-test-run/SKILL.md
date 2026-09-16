@@ -46,7 +46,7 @@ The dashboard is implemented as a helper that ships with this skill collection: 
 
    The script auto-loads the token from `$TESTERY_TOKEN` or `~/.testery/credentials`. It exits 0 on success, 1 on failure: propagate that for CI.
 
-3. After the dashboard exits, render the final per-test summary using the format from `testery-report-test-run`. Include the run URL on the header line (see "Testery URLs" below):
+3. After the dashboard exits, render the final per-test summary using the format from `testery-report-test-run`, including its "Rendering: inline widget vs. text" behavior (prefer an inline `show_widget` when a `visualize` MCP server is available, otherwise fall back to the text format below). Include the run URL on the header line (see "Testery URLs" below):
 
    ```
    Testery Test Run <id>  ·  <project> @ <env>
