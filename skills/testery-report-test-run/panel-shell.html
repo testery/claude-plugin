@@ -1,0 +1,43 @@
+<title>Testery Run __RUN_ID__</title>
+<style>
+/* Standalone shell for the run-report widget when show_widget is unavailable.
+   The widget fragment is written for the visualize host and reads that host's
+   CSS custom properties; this shell defines the same tokens for light and dark
+   so the fragment renders unchanged in a side panel or an Artifact page. */
+:root {
+  --surface-0: #f5f6f8; --surface-1: #ffffff; --surface-2: #f0f2f5; --surface-popover: #ffffff;
+  --text-primary: #18212b; --text-secondary: #3d4a57; --text-muted: #66737f;
+  --text-accent: #1f4fbf; --text-danger: #c42b2b; --text-success: #15803d;
+  --bg-accent: #e7eefc; --bg-danger: #fdecec;
+  --border: #e3e7ec; --border-strong: #b9c2cc; --border-accent: #7f9fe6; --border-danger: #f0a3a3;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --surface-0: #0f141a; --surface-1: #161e27; --surface-2: #1d2731; --surface-popover: #222d39;
+  --text-primary: #e5eaf0; --text-secondary: #c2ccd6; --text-muted: #94a1ae;
+  --text-accent: #a9c2ff; --text-danger: #ff8a8a; --text-success: #5fd88a;
+  --bg-accent: #1c2b4a; --bg-danger: #3a1d20;
+  --border: #2a3541; --border-strong: #4a5868; --border-accent: #4b6db8; --border-danger: #7a3b3f;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --surface-0: #0f141a; --surface-1: #161e27; --surface-2: #1d2731; --surface-popover: #222d39;
+  --text-primary: #e5eaf0; --text-secondary: #c2ccd6; --text-muted: #94a1ae;
+  --text-accent: #a9c2ff; --text-danger: #ff8a8a; --text-success: #5fd88a;
+  --bg-accent: #1c2b4a; --bg-danger: #3a1d20;
+  --border: #2a3541; --border-strong: #4a5868; --border-accent: #4b6db8; --border-danger: #7a3b3f;
+  color-scheme: dark }
+body { background: var(--surface-0); color: var(--text-primary); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding-inline: 16px; padding-block: 20px; }
+.testery-panel { max-width: 720px; margin: 0 auto; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; overflow-wrap: anywhere; }
+.testery-panel a:focus-visible, .testery-panel button:focus-visible { outline: 2px solid var(--border-accent); outline-offset: 2px; }
+</style>
+
+<div class="testery-panel">
+<!-- WIDGET -->
+</div>
+
+<script>
+// Outside the visualize host nothing intercepts link clicks, so open Testery links in a new tab.
+document.querySelectorAll('.testery-panel a[href^="http"]').forEach(function (a) {
+  a.target = '_blank';
+  a.rel = 'noopener';
+});
+</script>
