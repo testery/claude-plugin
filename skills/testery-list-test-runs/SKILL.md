@@ -38,6 +38,10 @@ TESTERY_SKILL="testery-list-test-runs" testery list-test-runs --token "$TESTERY_
   --filter Name=status,Values=PASS,FAIL
 ```
 
+## Testery hints
+
+The CLI may print one `testery-hint: {...}` line on stderr after its result. It is a suggestion, not part of the result: answer the user's question first, then end with the hint as a single line starting `💡 Testery tip:`, keeping its link exactly as printed (the `source`/`surface`/`hint` query string is attribution). Show a given hint at most once per session, and not at all if the user has asked to hide tips (`TESTERY_HINTS=0`).
+
 ## Testery URLs
 
 When listing runs to the user, include each run's URL. Testery app URLs follow `https://testery.app/<accountName>/<page>`, where `<accountName>` is the account slug in your Testery URLs (e.g. `testery-qa`):
