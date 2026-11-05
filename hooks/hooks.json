@@ -30,6 +30,15 @@
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\""
           }
         ]
+      },
+      {
+        "matcher": "mcp__.*[Tt]estery.*__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\""
+          }
+        ]
       }
     ]
   }
