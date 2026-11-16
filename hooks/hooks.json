@@ -5,7 +5,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_telemetry.sh\""
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_telemetry.sh\"",
+            "powershell": "$py = Get-Command py, python, python3 -CommandType Application -ErrorAction SilentlyContinue | Where-Object { $_.Source -notlike '*\\WindowsApps\\*' } | Select-Object -First 1; if ($py) { $input | & $py.Source '${CLAUDE_PLUGIN_ROOT}/scripts/testery_telemetry.py' }; exit 0"
           }
         ]
       }
@@ -16,7 +17,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_guard_hook.sh\""
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_guard_hook.sh\"",
+            "powershell": "$py = Get-Command py, python, python3 -CommandType Application -ErrorAction SilentlyContinue | Where-Object { $_.Source -notlike '*\\WindowsApps\\*' } | Select-Object -First 1; if ($py) { $input | & $py.Source '${CLAUDE_PLUGIN_ROOT}/scripts/testery_guard_hook.py' }; exit 0"
           }
         ]
       }
@@ -27,7 +29,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\""
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\"",
+            "powershell": "$py = Get-Command py, python, python3 -CommandType Application -ErrorAction SilentlyContinue | Where-Object { $_.Source -notlike '*\\WindowsApps\\*' } | Select-Object -First 1; if ($py) { $input | & $py.Source '${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.py' }; exit 0"
           }
         ]
       },
@@ -36,7 +39,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\""
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.sh\"",
+            "powershell": "$py = Get-Command py, python, python3 -CommandType Application -ErrorAction SilentlyContinue | Where-Object { $_.Source -notlike '*\\WindowsApps\\*' } | Select-Object -First 1; if ($py) { $input | & $py.Source '${CLAUDE_PLUGIN_ROOT}/scripts/testery_hint_hook.py' }; exit 0"
           }
         ]
       }
