@@ -102,6 +102,34 @@ You should see a scenario go **red, then green** on a local run. Local runs are 
 
 > **Note:** the install line is always `/plugin install testery@testery`. The marketplace name (`testery`) lives in `marketplace.json` and is independent of the repo name, so it never changes even if the repo is renamed. Only the `marketplace add` line points at the repo path.
 
+### Use with GitHub Copilot
+
+The same plugin runs in GitHub Copilot. You don't need a separate package.
+
+**Copilot CLI**
+
+```bash
+copilot plugin install testery/claude-plugin
+```
+
+**VS Code (Copilot agent mode).** Add this to your user or workspace `settings.json`:
+
+```jsonc
+{
+  "chat.plugins.enabled": true,
+  "chat.plugins.marketplaces": ["testery/claude-plugin"],
+  "chat.plugins.enabledPlugins": { "testery@testery": true }
+}
+```
+
+To query runs and results directly, add the hosted Testery MCP server in `.vscode/mcp.json`. Sign in with your Testery account when VS Code prompts you.
+
+```json
+{ "servers": { "testery": { "type": "http", "url": "https://mcp.testery.io/mcp" } } }
+```
+
+In Copilot, invoke the skills by name (for example, `/testery-create-test-run`) or just ask ("run these tests on Testery"). Copilot has no inline widget, so results come back as a Markdown table.
+
 ---
 
 ## How it works: the Testery Loop

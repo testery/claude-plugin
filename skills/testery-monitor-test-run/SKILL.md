@@ -5,7 +5,7 @@ description: Follow a Testery test run with a live ANSI dashboard (progress bar,
 
 # Monitor a Testery test run (live ANSI dashboard)
 
-> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`) (`${CLAUDE_PLUGIN_ROOT}` is the plugin root: set by Claude Code; in GitHub Copilot or another agent, use the plugin folder that holds this skill's `skills/` directory). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then ask the user (with the **AskUserQuestion** tool if your agent has it) to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
 
 While a run is in flight, render a live multi-line dashboard:
 
@@ -35,13 +35,13 @@ The dashboard is implemented as a helper that ships with this skill collection: 
 
    **bash / git bash / macOS / Linux:**
    ```bash
-   ~/.claude/skills/testery-monitor-test-run/bin/testery-watch.sh <run-id>
+   "${CLAUDE_PLUGIN_ROOT}/skills/testery-monitor-test-run/bin/testery-watch.sh" <run-id>
    #   options: --poll 3   --token "$TESTERY_TOKEN"   --api https://api.testery.io
    ```
 
    **PowerShell:**
    ```powershell
-   & "$HOME\.claude\skills\testery-monitor-test-run\bin\testery-watch.ps1" <run-id>
+   & "${CLAUDE_PLUGIN_ROOT}\skills\testery-monitor-test-run\bin\testery-watch.ps1" <run-id>
    ```
 
    The script auto-loads the token from `$TESTERY_TOKEN` or `~/.testery/credentials`. It exits 0 on success, 1 on failure: propagate that for CI.

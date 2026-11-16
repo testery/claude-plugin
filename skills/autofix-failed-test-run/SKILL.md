@@ -9,7 +9,7 @@ The flagship "wow" command: point it at a failed Testery run (or let it grab the
 and it walks each root cause with you — **update the test**, **fix the bug**, or **file a bug
 report**. It never changes anything without asking.
 
-> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`) (`${CLAUDE_PLUGIN_ROOT}` is the plugin root: set by Claude Code; in GitHub Copilot or another agent, use the plugin folder that holds this skill's `skills/` directory). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then ask the user (with the **AskUserQuestion** tool if your agent has it) to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
 
 ## 1. Require an authenticated account (hard requirement)
 
@@ -86,7 +86,7 @@ evidence (trimmed error / a screenshot link), and your best guess at the categor
 
 ## 5. Per root cause, ask what to do (required)
 
-For **each distinct root cause**, use the **AskUserQuestion** tool to let the user choose. Ask one
+For **each distinct root cause**, ask the user (with the **AskUserQuestion** tool if your agent has it) to let the user choose. Ask one
 question per root cause (batch them if there are several), header e.g. `Root cause 1`, with these
 three options:
 
