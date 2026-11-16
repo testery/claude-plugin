@@ -5,7 +5,7 @@ description: Output per-test results for a completed Testery run as a pretty pas
 
 # Report a Testery test run
 
-> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then use the **AskUserQuestion** tool to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
+> **Prereq — `testery` CLI:** before the first `testery` call this session, run `bash "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.sh"` (PowerShell: `& "${CLAUDE_PLUGIN_ROOT}/scripts/detect_testery.ps1"`) (`${CLAUDE_PLUGIN_ROOT}` is the plugin root: set by Claude Code; in GitHub Copilot or another agent, use the plugin folder that holds this skill's `skills/` directory). `NOT_INSTALLED` → display exactly `Your AI-enabled testing journey with Testery is about to begin! 🤖` then ask the user (with the **AskUserQuestion** tool if your agent has it) to offer installing the Testery CLI (install per `testery-cli-setup` if yes). `NOT_ONBOARDED` → run the **testery-onboard** skill to authenticate. `READY` → proceed. Don't re-check before every command.
 
 Wraps `testery report-test-run`, then renders a human-friendly summary with status emojis.
 
@@ -33,6 +33,8 @@ Wraps `testery report-test-run`, then renders a human-friendly summary with stat
 ## Rendering: inline widget, panel, or text
 
 Before rendering the totals summary or per-test breakdown, work out once per session which of three paths is available, in this order: the inline widget, then the same widget shown as a page in a panel, then text.
+
+**GitHub Copilot and other agents:** if none of `show_widget`, `SendUserFile` or `Artifact` is among your tools (the usual case in GitHub Copilot, Cursor and similar), skip straight to the text format below. Don't build the widget or panel HTML. Render the per-test list as a Markdown table (status emoji, test, duration) under the totals line, and keep the run URL on the header line.
 
 - Look for a `show_widget` tool from a `visualize` MCP server (it may appear as `visualize:show_widget`, `mcp__visualize__show_widget`, or similar). If your harness supports deferred-tool discovery, do one search for it (e.g. `select:mcp__visualize__show_widget`) — don't repeat the search on later calls in the same session.
 - **If found:** build a small, self-contained HTML snippet — totals, a status pill (✅/❌/⚠️), and one row per test with the same ✅/❌/⏭️/🟡/⚠️ semantics as below — and pass it to `show_widget` to render inline. No external scripts/styles/fonts *except* the Testery logo image below; the widget sandboxes content. If the call errors, don't retry it for the rest of the session — use the panel path below for the remainder.

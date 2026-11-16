@@ -38,7 +38,7 @@ TESTERY_SKILL="testery-onboard" testery verify-token
 
 ## 3. Ask the onboarding questions — all at once
 
-Make a **single `AskUserQuestion` call with both questions** (don't drip-feed). Only ask follow-ups
+Ask **both questions at once** (one `AskUserQuestion` call if your agent has that tool) (don't drip-feed). Only ask follow-ups
 later if the chosen path needs them.
 
 - **Question "Account"** — "Do you have a Testery account?"

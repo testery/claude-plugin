@@ -50,7 +50,7 @@ If the user has never set up Testery on this machine, prefer the `testery-onboar
 
       > Your AI-enabled testing journey with Testery is about to begin! 🤖
 
-   2. Use the **AskUserQuestion** tool to ask a yes/no question about installing the Testery
+   2. Ask the user (with the **AskUserQuestion** tool if your agent has it) to ask a yes/no question about installing the Testery
       CLI — frame the upside, e.g. header `Install CLI`, question "Install the Testery CLI? It
       unlocks running tests on Testery's cloud, live monitoring, schedules, environments, and
       more.", options **Yes, install it** / **Not now**.
